@@ -21,6 +21,11 @@ const Input: FunctionComponent<IInputProps> = (props): ReactElement => {
                 value={props.value}
                 onChange={(e) => props.onChange && props.onChange(e.target.value)}
                 onKeyDown={(e) => {
+                    const isEnterKey = e.key === 'Enter';
+                    if (isEnterKey && props.onEnter) {
+                        props.onEnter();
+                        return;
+                    }
                     const isDeleteKey = e.key === 'Backspace';
                     const isComboKeyPressed = e.ctrlKey || e.metaKey;
                     const inputAsNumber = parseInt(e.key);

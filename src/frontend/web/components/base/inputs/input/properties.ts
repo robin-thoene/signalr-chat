@@ -18,6 +18,8 @@ interface IInputProps {
     min?: string | number;
     /** Whether the input is disabled or not. */
     disabled?: boolean;
+    /** Callback to execute on enter. */
+    onEnter?: () => void;
 }
 
 export type { IInputProps };
