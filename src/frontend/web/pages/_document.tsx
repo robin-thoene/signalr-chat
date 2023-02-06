@@ -12,8 +12,8 @@ export default function Document(): JSX.Element {
             <Head>
                 <link rel="shortcut icon" href="/favicon.ico" />
                 <meta name="robots" content="index, follow" />
-                <meta name="description" content="This is the templated NextJS app for the project timewaste-trackerTmp." />
-                <meta property="og:title" content="timewaste-trackerTmp" />
+                <meta name="description" content="This is the templated NextJS app for the project signalr-chat." />
+                <meta property="og:title" content="signalr-chat" />
             </Head>
             <body>
                 <Main />
