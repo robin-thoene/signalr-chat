@@ -10,6 +10,7 @@ const buildClientSideRuntimeConfig = () => {
     switch (stage) {
         case 'Production':
             // Set production config values.
+            config.chatHubUrl = process.env.CHAT_HUB_URL;
             break;
         default:
             // Allow local dev apis.
