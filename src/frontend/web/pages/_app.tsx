@@ -35,7 +35,7 @@ const queryClient = new QueryClient({
 const CustomHead: FunctionComponent = (): ReactElement => {
     return (
         <Head>
-            <title>timewaste-trackerTmp</title>
+            <title>signalr-chat</title>
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         </Head>
     );
