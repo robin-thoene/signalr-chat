@@ -9,5 +9,7 @@
     "submitSearchAriaLabel": "Suche ausführen.",
     "clearSearchAriaLabel": "Suche zurückzsetzen.",
     "collapseSideNavAriaLabel": "Seitennavigation einklappen.",
-    "openSideNavAriaLabel": "Seitennavigation ausklappen."
+    "openSideNavAriaLabel": "Seitennavigation ausklappen.",
+    "chatControlSend": "Senden",
+    "chatControlPlaceholder": "Geben Sie Ihre Nachricht ein ..."
 }
