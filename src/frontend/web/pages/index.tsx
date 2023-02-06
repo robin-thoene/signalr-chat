@@ -2,9 +2,15 @@ import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { GetStaticProps, NextPage } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React, { useEffect, useState } from 'react';
+import { v4 } from 'uuid';
 
 import PrimaryButton from '../components/base/button/primaryButton';
+import Input from '../components/base/inputs/input';
 import { getClientConfig } from '../helper/configHelper';
+import { IMessage } from '../types';
+
+/** Generate a user id. */
+const userId = v4();
 
 /**
  * The page component to render at "/".
@@ -12,9 +18,12 @@ import { getClientConfig } from '../helper/configHelper';
  * @returns {NextPage} The home page component.
  */
 const Home: NextPage = () => {
+    /** The state of the hub connection. */
     const [connection, setConnection] = useState<HubConnection>();
     /** The messages to display. */
-    const [messages, setMessages] = useState<string[]>([]);
+    const [messages, setMessages] = useState<IMessage[]>([]);
+    /** The current user input. */
+    const [userInput, setUserInput] = useState<string>('');
 
     /** Store the hub connection in state. */
     useEffect(() => {
@@ -39,16 +48,36 @@ const Home: NextPage = () => {
     // Register a handler for the "ReceiveMessage" event.
     connection?.on('ReceiveMessage', (senderName, message) => {
         const newMessages = [...messages];
-        newMessages.push(`${senderName}: ${message}`);
+        const newMessage: IMessage = {
+            senderName: senderName,
+            content: message,
+        };
+        newMessages.push(newMessage);
         setMessages([...newMessages]);
     });
 
+    /**
+     * Send a message to the server that everyone can receive.
+     */
+    const sendMessage = () => {
+        connection?.invoke('BroadcastMessage', userId, userInput);
+        setUserInput('');
+    };
+
     return (
-        <div>
+        <div className="flex flex-1 flex-col p-6">
             {messages.map((message, index) => (
-                <div key={`message-${index}`}>{message}</div>
+                <div className={`flex flex-col ${message.senderName === userId ? 'self-end' : 'self-start'}`} key={`message-${index}`}>
+                    <div>{message.senderName}</div>
+                    <div>{message.content}</div>
+                </div>
             ))}
-            <PrimaryButton text="Send" onClick={() => connection?.invoke('BroadcastMessage', 'me', 'hellow')} />
+            <div className="mt-auto flex">
+                <Input value={userInput} onChange={(newValue) => setUserInput(newValue as string)} onEnter={sendMessage} />
+                <div className="ml-6">
+                    <PrimaryButton text="Send" onClick={sendMessage} />
+                </div>
+            </div>
         </div>
     );
 };
