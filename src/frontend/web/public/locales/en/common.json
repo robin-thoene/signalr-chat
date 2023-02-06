@@ -9,5 +9,7 @@
     "submitSearchAriaLabel": "Run search.",
     "clearSearchAriaLabel": "Reset search.",
     "collapseSideNavAriaLabel": "Collapse side navigation.",
-    "openSideNavAriaLabel": "Expand side navigation."
+    "openSideNavAriaLabel": "Expand side navigation.",
+    "chatControlSend": "Send",
+    "chatControlPlaceholder": "Enter your message ..."
 }

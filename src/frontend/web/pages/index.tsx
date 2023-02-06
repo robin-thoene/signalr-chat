@@ -1,5 +1,6 @@
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { GetStaticProps, NextPage } from 'next';
+import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React, { useEffect, useState } from 'react';
 import { v4 } from 'uuid';
@@ -18,6 +19,9 @@ const userId = v4();
  * @returns {NextPage} The home page component.
  */
 const Home: NextPage = () => {
+    /** Access to translations. */
+    const { t } = useTranslation();
+
     /** The state of the hub connection. */
     const [connection, setConnection] = useState<HubConnection>();
     /** The messages to display. */
@@ -67,15 +71,15 @@ const Home: NextPage = () => {
     return (
         <div className="flex flex-1 flex-col p-6">
             {messages.map((message, index) => (
-                <div className={`flex flex-col ${message.senderName === userId ? 'self-end' : 'self-start'}`} key={`message-${index}`}>
-                    <div>{message.senderName}</div>
-                    <div>{message.content}</div>
+                <div className={`chat ${message.senderName === userId ? 'chat-end' : 'chat-start'}`} key={`message-${index}`}>
+                    <div className="chat-header">{message.senderName}</div>
+                    <div className="chat-bubble chat-bubble-accent">{message.content}</div>
                 </div>
             ))}
             <div className="mt-auto flex">
-                <Input value={userInput} onChange={(newValue) => setUserInput(newValue as string)} onEnter={sendMessage} />
+                <Input placeholder={t('chatControlPlaceholder')} value={userInput} onChange={(newValue) => setUserInput(newValue as string)} onEnter={sendMessage} />
                 <div className="ml-6">
-                    <PrimaryButton text="Send" onClick={sendMessage} />
+                    <PrimaryButton text={t('chatControlSend')} onClick={sendMessage} />
                 </div>
             </div>
         </div>
