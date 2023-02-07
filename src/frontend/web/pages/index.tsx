@@ -1,17 +1,22 @@
-import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
 import { GetStaticProps, NextPage } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React, { useEffect, useState } from 'react';
 import { v4 } from 'uuid';
 
+import BusySpinnerOverlay from '../components/base/busy/busySpinnerOverlay';
 import PrimaryButton from '../components/base/button/primaryButton';
 import Input from '../components/base/inputs/input';
 import { getClientConfig } from '../helper/configHelper';
 import { IMessage } from '../types';
 
-/** Generate a user id. */
+// Generate a user id.
 const userId = v4();
+// Get the public client configuration.
+const config = getClientConfig();
+// Create the chat hub connection.
+const hubConnection = new HubConnectionBuilder().withUrl(config.chatHubUrl).build();
 
 /**
  * The page component to render at "/".
@@ -22,66 +27,61 @@ const Home: NextPage = () => {
     /** Access to translations. */
     const { t } = useTranslation();
 
-    /** The state of the hub connection. */
-    const [connection, setConnection] = useState<HubConnection>();
     /** The messages to display. */
     const [messages, setMessages] = useState<IMessage[]>([]);
     /** The current user input. */
     const [userInput, setUserInput] = useState<string>('');
+    /** Whether the client is connected to the message hub or not. */
+    const [isConnected, setIsConnected] = useState<boolean>(false);
 
-    /** Store the hub connection in state. */
+    /** Start the connection. */
     useEffect(() => {
-        // Get the public client configuration.
-        const config = getClientConfig();
-        // Create the chat hub connection.
-        const hubConnection = new HubConnectionBuilder().withUrl(config.chatHubUrl).build();
-        setConnection(hubConnection);
-    }, []);
-
-    /** Handle connect and disconnect. */
-    useEffect(() => {
-        if (connection) {
-            connection.start();
+        if (hubConnection.state === HubConnectionState.Disconnected && !isConnected) {
+            hubConnection.start().then(() => setIsConnected(true));
         }
-        return () => {
-            // Stop the connection.
-            connection?.stop();
-        };
-    }, [connection]);
+    }, [isConnected]);
 
-    // Register a handler for the "ReceiveMessage" event.
-    connection?.on('ReceiveMessage', (senderName, message) => {
-        const newMessages = [...messages];
-        const newMessage: IMessage = {
-            senderName: senderName,
-            content: message,
-        };
-        newMessages.push(newMessage);
-        setMessages([...newMessages]);
-    });
+    /** Register the handler for the messages. */
+    useEffect(() => {
+        hubConnection?.on('ReceiveMessage', (senderName, message) => {
+            const newMessages = [...messages];
+            const newMessage: IMessage = {
+                senderName: senderName,
+                content: message,
+            };
+            newMessages.push(newMessage);
+            setMessages([...newMessages]);
+        });
+    }, [messages]);
 
     /**
      * Send a message to the server that everyone can receive.
      */
     const sendMessage = () => {
-        connection?.invoke('BroadcastMessage', userId, userInput);
+        hubConnection?.invoke('BroadcastMessage', userId, userInput);
         setUserInput('');
     };
 
     return (
-        <div className="flex flex-1 flex-col p-6">
-            {messages.map((message, index) => (
-                <div className={`chat ${message.senderName === userId ? 'chat-end' : 'chat-start'}`} key={`message-${index}`}>
-                    <div className="chat-header">{message.senderName}</div>
-                    <div className="chat-bubble chat-bubble-accent">{message.content}</div>
-                </div>
-            ))}
-            <div className="mt-auto flex">
-                <Input placeholder={t('chatControlPlaceholder')} value={userInput} onChange={(newValue) => setUserInput(newValue as string)} onEnter={sendMessage} />
-                <div className="ml-6">
-                    <PrimaryButton text={t('chatControlSend')} onClick={sendMessage} />
-                </div>
-            </div>
+        <div className="relative flex flex-1 flex-col p-6">
+            {!isConnected ? (
+                <BusySpinnerOverlay />
+            ) : (
+                <>
+                    {messages.map((message, index) => (
+                        <div className={`chat ${message.senderName === userId ? 'chat-end' : 'chat-start'}`} key={`message-${index}`}>
+                            <div className="chat-header">{message.senderName}</div>
+                            <div className="chat-bubble chat-bubble-accent">{message.content}</div>
+                        </div>
+                    ))}
+                    <div className="mt-auto flex">
+                        <Input placeholder={t('chatControlPlaceholder')} value={userInput} onChange={(newValue) => setUserInput(newValue as string)} onEnter={sendMessage} />
+                        <div className="ml-6">
+                            <PrimaryButton text={t('chatControlSend')} onClick={sendMessage} />
+                        </div>
+                    </div>
+                </>
+            )}
         </div>
     );
 };
