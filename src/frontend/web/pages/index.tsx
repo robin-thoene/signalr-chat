@@ -37,7 +37,22 @@ const Home: NextPage = () => {
     /** Start the connection. */
     useEffect(() => {
         if (hubConnection.state === HubConnectionState.Disconnected && !isConnected) {
-            hubConnection.start().then(() => setIsConnected(true));
+            const connectToHub = async () => {
+                try {
+                    // Try to connect to the hub.
+                    await hubConnection.start();
+                    setIsConnected(true);
+                    hubConnection.onclose(() => {
+                        setIsConnected(false);
+                    });
+                } catch (error) {
+                    // Try to reconnect in 5 seconds.
+                    if (!isConnected) {
+                        setTimeout(connectToHub, 5000);
+                    }
+                }
+            };
+            connectToHub();
         }
     }, [isConnected]);
 
