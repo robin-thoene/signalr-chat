@@ -90,7 +90,7 @@ const Home: NextPage = () => {
                         </div>
                     ))}
                     <div className="mt-auto flex">
-                        <Input placeholder={t('chatControlPlaceholder')} value={userInput} onChange={(newValue) => setUserInput(newValue as string)} onEnter={sendMessage} />
+                        <Input placeholder={t('chatControlPlaceholder') ?? ''} value={userInput} onChange={(newValue) => setUserInput(newValue as string)} onEnter={sendMessage} />
                         <div className="ml-6">
                             <PrimaryButton text={t('chatControlSend')} onClick={sendMessage} />
                         </div>

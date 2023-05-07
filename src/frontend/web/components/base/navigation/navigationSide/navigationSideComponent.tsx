@@ -40,7 +40,7 @@ const NavigationSide: FunctionComponent = (): ReactElement => {
             </div>
             <div className="mt-auto">
                 <button
-                    aria-label={isSideNavCollapsed ? t('openSideNavAriaLabel') : t('collapseSideNavAriaLabel')}
+                    aria-label={(isSideNavCollapsed ? t('openSideNavAriaLabel') : t('collapseSideNavAriaLabel')) ?? undefined}
                     className="btn-ghost btn flex w-full items-center justify-end rounded-none"
                     onClick={() => updateIsSideNavCollapsed(!isSideNavCollapsed)}
                 >
