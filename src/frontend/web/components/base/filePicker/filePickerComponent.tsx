@@ -5,7 +5,6 @@ import { IFilePickerProps } from './properties';
 
 /**
  * Lets the user pick files from the device file system.
- *
  * @param {IFilePickerProps} props The component properties.
  * @returns {ReactElement} The file picker component.
  */

@@ -4,7 +4,6 @@ import { ITooltipProps } from './properties';
 
 /**
  * Displays additional information as overlaying tooltip.
- *
  * @param {ITooltipProps} props The component properties.
  * @returns {ReactElement} The tooltip component.
  */

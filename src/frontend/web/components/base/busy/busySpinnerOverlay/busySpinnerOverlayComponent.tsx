@@ -7,7 +7,6 @@ import BusySpinner from '../busySpinner/busySpinnerComponent';
  *
  * Must be placed inside a `relative` container to completely
  * overlay that container.
- *
  * @returns {ReactElement} The busy spinner overlay component.
  */
 const BusySpinnerOverlay: FunctionComponent = (): ReactElement => {

@@ -4,7 +4,6 @@ import ICardProps from './properties';
 
 /**
  * Styled card to display data.
- *
  * @param {ICardProps} props The component properties.
  * @returns {ReactElement} The card component.
  */

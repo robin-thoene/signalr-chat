@@ -5,7 +5,6 @@ import { ITextAreaProps } from './properties';
 
 /**
  * Multiline text input.
- *
  * @param {ITextAreaProps} props The component properties.
  * @returns {ReactElement} The text area component.
  */
