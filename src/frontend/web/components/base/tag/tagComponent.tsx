@@ -6,7 +6,6 @@ import { ITagProps } from './properties';
 
 /**
  * Displays data as graphical tag.
- *
  * @param {ITagProps} props The component properties.
  * @returns {ReactElement} The tag component.
  */

@@ -5,7 +5,6 @@ import { IInputProps } from './properties';
 
 /**
  * Basic input.
- *
  * @param {IInputProps} props The component properties.
  * @returns {ReactElement} The input component.
  */

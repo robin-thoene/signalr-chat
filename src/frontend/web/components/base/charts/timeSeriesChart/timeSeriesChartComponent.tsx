@@ -7,7 +7,6 @@ import { ITimeSeriesChartProps } from './properties';
 
 /**
  * Displays time series data in a line chart.
- *
  * @param {ITimeSeriesChartProps} props The component properties.
  * @returns {ReactElement} The time series line chart component.
  */

@@ -17,7 +17,6 @@ registerLocale('en', enUS);
 
 /**
  * Basic date picker.
- *
  * @param {IDatePickerProps} props The component properties.
  * @returns {ReactElement} The date picker component.
  */

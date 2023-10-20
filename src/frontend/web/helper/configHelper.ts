@@ -4,7 +4,6 @@ import { IConfiguration } from '../types';
 
 /**
  * Build and return the configuration model for the public client.
- *
  * @returns {IConfiguration} The complete configuration model.
  */
 const getClientConfig = (): IConfiguration => {

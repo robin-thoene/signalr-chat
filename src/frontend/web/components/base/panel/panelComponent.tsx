@@ -8,7 +8,6 @@ import { IPanelProps } from './properties';
 
 /**
  * Overlay that open from a side of the display with space for inner content.
- *
  * @param {IPanelProps} props The component properties.
  * @returns {ReactElement} The panel component.
  */

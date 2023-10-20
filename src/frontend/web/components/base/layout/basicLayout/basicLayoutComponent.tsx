@@ -7,7 +7,6 @@ import { IBasicLayoutProps } from './properties';
 
 /**
  * Basic layout to wrap children.
- *
  * @param {IBasicLayoutProps} props The component properties.
  * @returns {ReactElement} The basic layout component.
  */
@@ -37,7 +36,7 @@ const BasicLayout: FunctionComponent<IBasicLayoutProps> = (props): ReactElement 
 
     return (
         <div className="flex max-h-screen flex-1 flex-col">
-            <NavigationTop enableGlobalSearch={props.enableGlobalSearch} />
+            <NavigationTop />
             <div className="flex flex-1 overflow-hidden">{props.children}</div>
             {globalNotification && <Toast type={globalNotification.type} message={globalNotification.message} dismiss={() => updateGlobalNotificationMessage(undefined)} />}
         </div>

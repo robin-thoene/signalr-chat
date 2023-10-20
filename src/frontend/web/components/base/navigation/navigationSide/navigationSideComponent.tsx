@@ -9,7 +9,6 @@ import { useStoreActions, useStoreState } from '../../../../store/store';
 
 /**
  * Navigation menu placed on the side of the screen.
- *
  * @returns {ReactElement} The side navigation component.
  */
 const NavigationSide: FunctionComponent = (): ReactElement => {

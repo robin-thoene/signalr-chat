@@ -8,7 +8,6 @@ import { INavigationTopProps } from './properties';
 
 /**
  * Basic top navigation to display the logo.
- *
  * @param {INavigationTopProps} props The component properties.
  * @returns {ReactElement} The top navigation component.
  */

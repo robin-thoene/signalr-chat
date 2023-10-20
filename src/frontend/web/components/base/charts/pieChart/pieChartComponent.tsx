@@ -6,7 +6,6 @@ import { IPieChartProps } from './properties';
 
 /**
  * Displays data in a pie chart.
- *
  * @param {IPieChartProps} props The properties of the pie chart.
  * @returns {ReactElement} The pie chart component.
  */
@@ -19,7 +18,6 @@ const PieChart: FunctionComponent<IPieChartProps> = (props): ReactElement => {
 
     /**
      * Callback to render the customized label.
-     *
      * @param {{ cx: number; x: number; y: number; percent: number }} props The properties of the label rendering callback.
      * @returns {ReactElement} The rendered label.
      */
