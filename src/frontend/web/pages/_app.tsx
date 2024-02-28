@@ -1,25 +1,11 @@
 import '../styles/globals.css';
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { StoreProvider } from 'easy-peasy';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { appWithTranslation } from 'next-i18next';
 import React, { FunctionComponent, ReactElement } from 'react';
 
 import BasicLayout from '../components/base/layout/basicLayout';
-import { Store } from '../store/store';
-
-// Create query client to use.
-const queryClient = new QueryClient({
-    defaultOptions: {
-        queries: {
-            refetchOnWindowFocus: false,
-        },
-    },
-});
-
 /**
  * Part of the custom HTML Head
  * @returns {ReactElement} Part of the application Head
@@ -39,15 +25,12 @@ const CustomHead: FunctionComponent = (): ReactElement => {
  */
 const App: FunctionComponent<AppProps> = ({ Component, pageProps }: AppProps): ReactElement => {
     return (
-        <QueryClientProvider client={queryClient}>
-            <ReactQueryDevtools initialIsOpen={false} position="right" />
-            <StoreProvider store={Store}>
-                <CustomHead />
-                <BasicLayout>
-                    <Component {...pageProps} />
-                </BasicLayout>
-            </StoreProvider>
-        </QueryClientProvider>
+        <>
+            <CustomHead />
+            <BasicLayout>
+                <Component {...pageProps} />
+            </BasicLayout>
+        </>
     );
 };
 
