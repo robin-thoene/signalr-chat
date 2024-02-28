@@ -16,7 +16,7 @@ const buildClientSideRuntimeConfig = () => {
             // Allow local dev apis.
             process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
             // Set local development config values.
-            config.chatHubUrl = 'https://localhost:7052/chatHub';
+            config.chatHubUrl = 'http://localhost:5201/chatHub';
             break;
     }
     return config;
